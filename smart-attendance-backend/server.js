@@ -5,6 +5,11 @@ import connectDB from './config/database.js';
 
 // Import routes
 import authRoutes from './routes/auth.js';
+import lectureRoutes from './routes/lecture.js';
+import attendanceRoutes from './routes/attendance.js';
+import qrRoutes from './routes/qr.js';
+
+
 
 // Load environment variables
 dotenv.config();
@@ -22,6 +27,9 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/lectures', lectureRoutes);
+app.use('/api/attendance', attendanceRoutes);
+app.use('/api/qr', qrRoutes);
 
 // Basic route for testing
 app.get('/', (req, res) => {
@@ -32,11 +40,28 @@ app.get('/', (req, res) => {
     database: 'Connected',
     endpoints: {
       auth: '/api/auth',
+      lectures: '/api/lectures',
+      attendance: '/api/attendance',
+      qr: '/api/qr',
       available_routes: [
+        // Auth routes
         'POST /api/auth/register',
         'POST /api/auth/login', 
         'GET /api/auth/profile',
-        'POST /api/auth/logout'
+        // Lecture routes
+        'POST /api/lectures',
+        'GET /api/lectures',
+        'GET /api/lectures/student',
+        'POST /api/lectures/:id/start-qr',
+        // Attendance routes
+        'POST /api/attendance/mark',
+        'GET /api/attendance/student',
+        'GET /api/attendance/lecture/:lectureId',
+        'GET /api/attendance/report',
+        // QR routes
+        'POST /api/qr/refresh/:sessionId',
+        'POST /api/qr/stop/:sessionId',
+        'GET /api/qr/status/:sessionId'
       ]
     }
   });
