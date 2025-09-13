@@ -15,6 +15,24 @@ import qrRoutes from './routes/qr.js';
 dotenv.config();
 
 const app = express();
+
+app.use(bodyParser.json());
+// ✅ Allow only your frontend
+const allowedOrigins = ["https://smart-attendance-tau.vercel.app"];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // if you’re sending cookies/auth headers
+  })
+);
+
 const PORT = process.env.PORT || 5000;
 
 // Connect to MongoDB
