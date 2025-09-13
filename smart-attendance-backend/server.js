@@ -1,13 +1,16 @@
 import express from 'express';
-import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import connectDB from './config/database.js';
 
 // Load environment variables
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+// Connect to MongoDB
+connectDB();
 
 // Middleware
 app.use(cors());
@@ -19,7 +22,8 @@ app.get('/', (req, res) => {
   res.json({ 
     message: 'Smart Attendance System API',
     version: '1.0.0',
-    status: 'Server running successfully!'
+    status: 'Server running successfully!',
+    database: 'Connected'
   });
 });
 
