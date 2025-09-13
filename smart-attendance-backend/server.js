@@ -16,7 +16,6 @@ dotenv.config();
 
 const app = express();
 
-app.use(bodyParser.json());
 // ✅ Allow only your frontend
 const allowedOrigins = ["https://smart-attendance-tau.vercel.app"];
 
