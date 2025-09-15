@@ -5,7 +5,7 @@ import { Navigation } from '@/components/layout/Navigation';
 import { QRScanner } from '@/components/student/QRScanner'; // Fixed Yudiel version
 // import { Html5QRScanner as QRScanner } from '@/components/student/Html5QRScanner'; // Alternative version
 import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 
 export default function ScanPage() {

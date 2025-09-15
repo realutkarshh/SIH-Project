@@ -254,11 +254,11 @@ export default function TeacherDashboard() {
                           <div className="w-full bg-gray-800 rounded-full h-2 max-w-[100px]">
                             <div
                               className="bg-purple-600 h-2 rounded-full transition-all duration-300"
-                              style={{ width: `${lecture.progress || 0}%` }}
+                              style={{ width: `${lecture.presentStudents || 0}%` }}
                             ></div>
                           </div>
                           <span className="text-sm text-gray-400 min-w-[30px]">
-                            {lecture.progress || 0}%
+                            {lecture.presentStudents || 0}%
                           </span>
                         </div>
                       </td>

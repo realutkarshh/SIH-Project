@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import { Scanner } from '@yudiel/react-qr-scanner';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { attendanceApi } from '@/lib/api';
 import toast from 'react-hot-toast';
 
@@ -104,7 +104,7 @@ export function QRScanner({ onSuccess, onError }: QRScannerProps) {
           <h3 className="text-lg font-medium text-gray-900">QR Code Scanner</h3>
           <Button
             onClick={() => setIsScanning(!isScanning)}
-            variant={isScanning ? 'danger' : 'primary'}
+            // variant={isScanning ? 'danger' : 'primary'}
             disabled={isProcessing}
           >
             {isScanning ? '📹 Stop Scanner' : '📱 Start Scanner'}
@@ -240,7 +240,7 @@ function ManualQREntry() {
         <Button
           type="submit"
           disabled={!qrText.trim() || isSubmitting}
-          isLoading={isSubmitting}
+          // isLoading={isSubmitting}
         >
           Mark Attendance
         </Button>

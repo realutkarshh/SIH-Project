@@ -16,8 +16,8 @@ const PORT = process.env.PORT || 5000;
 
 // ✅ Allowed origins (local + deployed frontend)
 const allowedOrigins = [
-  "http://localhost:3000",              // local Next.js dev
-  "http://127.0.0.1:3000",             // sometimes needed
+  // "http://localhost:3000",              // local Next.js dev
+  // "http://127.0.0.1:3000",             // sometimes needed
   "https://smart-attendance-tau.vercel.app" // deployed frontend
 ];
 
