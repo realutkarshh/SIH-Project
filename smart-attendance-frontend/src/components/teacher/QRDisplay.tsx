@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 import { qrApi } from '@/lib/api';
 import toast from 'react-hot-toast';
 
@@ -160,7 +160,7 @@ export function QRDisplay({ sessionId, initialData }: QRDisplayProps) {
           {isActive && (
             <Button
               onClick={handleStopSession}
-              variant="danger"
+              // variant="danger"
               className="w-full"
             >
               🛑 Stop Session

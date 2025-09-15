@@ -9,48 +9,49 @@ import lectureRoutes from './routes/lecture.js';
 import attendanceRoutes from './routes/attendance.js';
 import qrRoutes from './routes/qr.js';
 
-
-
-// Load environment variables
 dotenv.config();
-
 const app = express();
 
-// ✅ Allow only your frontend
-const allowedOrigins = ["https://smart-attendance-tau.vercel.app"];
+const PORT = process.env.PORT || 5000;
 
+// ✅ Allowed origins (local + deployed frontend)
+const allowedOrigins = [
+  "http://localhost:3000",              // local Next.js dev
+  "http://127.0.0.1:3000",             // sometimes needed
+  "https://smart-attendance-tau.vercel.app" // deployed frontend
+];
+
+// ✅ CORS middleware (only once!)
 app.use(
   cors({
     origin: function (origin, callback) {
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
+        console.error("❌ CORS blocked:", origin);
         callback(new Error("Not allowed by CORS"));
       }
     },
-    credentials: true, // if you’re sending cookies/auth headers
+    credentials: true, // allow cookies/auth headers
   })
 );
 
-const PORT = process.env.PORT || 5000;
-
-// Connect to MongoDB
-connectDB();
-
-// Middleware
-app.use(cors());
+// ✅ Middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Routes
+// ✅ Connect DB
+connectDB();
+
+// ✅ Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/lectures', lectureRoutes);
 app.use('/api/attendance', attendanceRoutes);
 app.use('/api/qr', qrRoutes);
 
-// Basic route for testing
+// ✅ Basic route
 app.get('/', (req, res) => {
-  res.json({ 
+  res.json({
     message: 'Smart Attendance System API',
     version: '1.0.0',
     status: 'Server running successfully!',
@@ -60,48 +61,28 @@ app.get('/', (req, res) => {
       lectures: '/api/lectures',
       attendance: '/api/attendance',
       qr: '/api/qr',
-      available_routes: [
-        // Auth routes
-        'POST /api/auth/register',
-        'POST /api/auth/login', 
-        'GET /api/auth/profile',
-        // Lecture routes
-        'POST /api/lectures',
-        'GET /api/lectures',
-        'GET /api/lectures/student',
-        'POST /api/lectures/:id/start-qr',
-        // Attendance routes
-        'POST /api/attendance/mark',
-        'GET /api/attendance/student',
-        'GET /api/attendance/lecture/:lectureId',
-        'GET /api/attendance/report',
-        // QR routes
-        'POST /api/qr/refresh/:sessionId',
-        'POST /api/qr/stop/:sessionId',
-        'GET /api/qr/status/:sessionId'
-      ]
     }
   });
 });
 
-// 404 handler - Simple middleware without wildcards
-app.use((req, res, next) => {
+// 404 handler
+app.use((req, res) => {
   res.status(404).json({
     success: false,
     message: 'Route not found',
     path: req.originalUrl,
     method: req.method,
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   });
 });
 
-// Error handling middleware (must be last)
+// Error handler
 app.use((error, req, res, next) => {
-  console.error('Server Error:', error);
+  console.error('Server Error:', error.message);
   res.status(500).json({
     success: false,
     message: 'Internal server error',
-    error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    error: process.env.NODE_ENV === 'development' ? error.message : undefined,
   });
 });
 
